@@ -31,7 +31,7 @@ function upload(){
 		}
 	});
 	$.ajax({ 
-		url: "upload",
+		url: "/upload",
 		type: "POST",
 		data: formData,
 		processData: false,
