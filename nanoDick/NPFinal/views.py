@@ -5,6 +5,8 @@ from .models import Post
 from .forms import *
 from django.contrib import messages
 import json
+import random
+import string
 
 # Create your views here.
 def post_list(request):
@@ -51,15 +53,20 @@ def upload(request):
     if request.method == 'POST':
         # store file
         #print(settings.IMAGES_ROOT+request.FILES['image'].name)
+        def rand_name():
+            charset = string.ascii_uppercase + string.ascii_lowercase + string.digits
+            return ''.join(random.choice(charset) for _ in range(6))
+
         file_exten = request.FILES['image'].name.split('.')[-1]
-        destination_path = open(settings.IMAGES_ROOT+request.FILES['image'].name, "wb+")
+        imgname = rand_name() + '.' + file_exten
+        destination_path = open(settings.IMAGES_ROOT+ imgname, "wb+")
         image = request.FILES['image']
         for chunk in image.chunks():
             destination_path.write(chunk)
         destination_path.close()
         Post.objects.create(
             title = "test title",
-            img_src = settings.IMAGES_ROOT+request.FILES['image'].name,
+            img_src = settings.IMAGES_ROOT+imgname,
             text = "test text",
             hash_tag = ['1','2','3'],
         )
