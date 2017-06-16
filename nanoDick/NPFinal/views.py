@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.http import *
+from django.template import loader
 from .models import Post
 from .forms import *
 from django.contrib import messages
 import json
+import random
+import string
 
 # Create your views here.
 def post_list(request):
@@ -51,22 +54,25 @@ def upload(request):
     if request.method == 'POST':
         # store file
         #print(settings.IMAGES_ROOT+request.FILES['image'].name)
+        def rand_name():
+            charset = string.ascii_uppercase + string.ascii_lowercase + string.digits
+            return ''.join(random.choice(charset) for _ in range(6))
+
         file_exten = request.FILES['image'].name.split('.')[-1]
-        destination_path = open(settings.IMAGES_ROOT+request.FILES['image'].name, "wb+")
+        imgname = rand_name() + '.' + file_exten
+        destination_path = open(settings.IMAGES_ROOT+ imgname, "wb+")
         image = request.FILES['image']
         for chunk in image.chunks():
             destination_path.write(chunk)
         destination_path.close()
+        print(request.POST.get['hash'])
         Post.objects.create(
-            title = "test title",
-            img_src = settings.IMAGES_ROOT+request.FILES['image'].name,
-            text = "test text",
-            hash_tag = ['1','2','3'],
+            img_name = imgname,
+            hash_tag = request.POST.get('hash')
         )
-        
         #handle_uploaded_file(request.FILES['file'])
-        return HttpResponse(status=200)
-
+        src = '/static/images/'+imgname
+        return render(request,'NPFinal/demo.html', {'src': src})
 def post(request):
     return render(request, 'NPFinal/demo.html', {'src': '/static/images/home-img-3.jpg'})
 

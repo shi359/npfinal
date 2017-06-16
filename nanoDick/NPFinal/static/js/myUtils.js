@@ -19,9 +19,11 @@ function csrfSafeMethod(method) {
 }
 function upload(){
 	var input = document.getElementById("my_file");
+	var hash = document.getElementById("my_hash");
 	file = input.files[0];
 	formData= new FormData();
 	formData.append("image", file);
+	formData.append("hash",hash.value);
 	var csrftoken = getCookie('csrftoken');
 	$.ajaxSetup({
 		beforeSend: function(xhr, settings) {
