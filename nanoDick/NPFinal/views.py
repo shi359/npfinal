@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.http import *
+from django.template import loader
 from .models import Post
 from .forms import *
 from django.contrib import messages
@@ -64,16 +65,14 @@ def upload(request):
         for chunk in image.chunks():
             destination_path.write(chunk)
         destination_path.close()
+        print(request.POST.get['hash'])
         Post.objects.create(
-            title = "test title",
-            img_src = settings.IMAGES_ROOT+imgname,
-            text = "test text",
-            hash_tag = ['1','2','3'],
+            img_name = imgname,
+            hash_tag = request.POST.get('hash')
         )
-        
         #handle_uploaded_file(request.FILES['file'])
-        return HttpResponse(status=200)
-
+        src = '/static/images/'+imgname
+        return render(request,'NPFinal/demo.html', {'src': src})
 def post(request):
     return render(request, 'NPFinal/demo.html', {'src': '/static/images/home-img-3.jpg'})
 
