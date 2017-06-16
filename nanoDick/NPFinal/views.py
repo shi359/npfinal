@@ -65,16 +65,20 @@ def upload(request):
         for chunk in image.chunks():
             destination_path.write(chunk)
         destination_path.close()
-        print(request.POST.get['hash'])
         Post.objects.create(
             img_name = imgname,
             hash_tag = request.POST.get('hash')
         )
         #handle_uploaded_file(request.FILES['file'])
-        src = '/static/images/'+imgname
-        return render(request,'NPFinal/demo.html', {'src': src})
-def post(request):
-    return render(request, 'NPFinal/demo.html', {'src': '/static/images/home-img-3.jpg'})
+        # src = '/static/images/'+imgname
+        # return post with its hash
+        return HttpResponse(json.dumps({'url':'/post/'+imgname.split('.')[0]}), content_type = "application/json")
+def post(request, hash_name):
+    posts = Post.objects.all()
+    for p in posts:
+        if p.img_name.split('.')[0] == hash_name:
+            print('/static/images/'+p.img_name)
+            return render(request, 'NPFinal/demo.html', {'src': '/static/images/'+p.img_name})
 
 def base(request):
     return render(request, 'NPFinal/base.html', {})
