@@ -65,7 +65,6 @@ def upload(request):
         for chunk in image.chunks():
             destination_path.write(chunk)
         destination_path.close()
-        print(request.POST.get['hash'])
         Post.objects.create(
             img_name = imgname,
             hash_tag = request.POST.get('hash')

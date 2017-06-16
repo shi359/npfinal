@@ -33,13 +33,13 @@ function upload(){
 		}
 	});
 	$.ajax({ 
-		url: "upload",
+		url: "demo.html",
 		type: "POST",
 		data: formData,
 		processData: false,
 		contentType: false,
 		success: function(data) {
-			console.log(data);
+			data['url']			
 		},                
 		error: function(xhr, status, error) {
 			console.log("post error!!");
