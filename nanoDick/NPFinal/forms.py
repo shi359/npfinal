@@ -31,7 +31,7 @@ class Reg(models.Model):
     password = models.CharField(validators=[valid_pwd],max_length=50)
     
     def __str__(self):
-        return name
+        return self.name
 
 class RegForm(ModelForm):
     class Meta:

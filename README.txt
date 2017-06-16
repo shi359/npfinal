@@ -19,8 +19,8 @@ python manage.py runserver
 
 interact with database:
 python manage.py shell
-
-from NPFinal.models import Post
+from NPFinal.forms import *
+from NPFinal.models import *
 Post.objects.all() # list record
 Post.objects.create(title = "test title",img_src = "QQ",text = "test text", hash_tag="['asd', 'a']") # create record
 

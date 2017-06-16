@@ -20,10 +20,10 @@ def login(request):
         form = LoginForm(request.POST)
         m = form['account'].value()
         p = form['password'].value()
-        user = Reg.objects.filter(mail=m)
+        user = Reg.objects.filter(mail=m)[0]
         if not user:
             return render(request, 'NPFinal/login_redirect.html', {'msg':'user not exist'})
-        if not user['password'] == p:
+        if not user.password == p:
             return render(request, 'NPFinal/login_redirect.html', {'msg':'oops, wrong password'})
         if form.is_valid():
             return render(request, 'NPFinal/login_redirect.html', {'msg':'login successfully'})
@@ -39,9 +39,10 @@ def register(request):
         form = RegForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponse(status=200)
+            return render(request, 'NPFinal/register_redirect.html', {'msg':'register successfully'})
+
         else:
-            return HttpResponse(status=301)
+            return render(request, 'NPFinal/register_redirect.html', {'msg':'register fail'})
     else:
         form = RegForm()        
     return render(request, 'NPFinal/register.html', {'form': form})
