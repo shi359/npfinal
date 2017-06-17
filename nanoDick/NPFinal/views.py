@@ -12,10 +12,10 @@ import string
 # Create your views here.
 def post_list(request):
     srcs = []
-    srcs.append(('/static/images/home-img-2.jpg','#london','/post/home-img-2'))
-    srcs.append(('/static/images/home-img-3.jpg','#london#autumn','/post/home-img-3'))
-    srcs.append(('/static/images/road.jpg','#road','/post/road'))
-    srcs.append(('/static/images/city.jpg','#city','/post/city'))
+    srcs.append(('/static/images/Vtq8Qp.jpg','#london','/post/Vtq8Qp'))
+    srcs.append(('/static/images/DMyHTg.jpg','#autumn','/post/DMyHTg'))
+    srcs.append(('/static/images/P5hhR3.jpg','#road','/post/P5hhR3'))
+    srcs.append(('/static/images/taCU4B.jpg','#city','/post/taCU4B'))
     # posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     return render(request, 'NPFinal/index.html', {'srcs':srcs})
 
