@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from django.http import *
 from django.template import loader
-from .models import Post
+from .models import *
 from .forms import *
 from django.contrib import messages
 import json
@@ -72,12 +72,14 @@ def upload(request):
         #handle_uploaded_file(request.FILES['file'])
         # return post with its hash
         return HttpResponse(json.dumps({'url':'/post/'+imgname.split('.')[0]}), content_type = "application/json")
+
 def post(request, hash_name):
     posts = Post.objects.all()
+    comments = {}
     for p in posts:
         if p.img_name.split('.')[0] == hash_name:
             print('/static/images/'+p.img_name)
-            return render(request, 'NPFinal/demo.html', {'src': '/static/images/'+p.img_name, 'tag': p.hash_tag})
+            return render(request, 'NPFinal/demo.html', {'src': '/static/images/'+p.img_name, 'tag': p.hash_tag, 'comments':{}})
 
 def search(request):
     keyword = request.POST.get('keyword')
@@ -85,13 +87,23 @@ def search(request):
 
 def result(request, hash_name):
     post = Post.objects.all()
-    results = {}
+    results = []
     for p in post:
         if hash_name in p.hash_tag:
-            results['/static/images/'+p.img_name] = p.hash_tag
-    for k,v in results.items():
-        print(k + ':' + v)
-    return render(request,'NPFinal/index.html',{'src':results.items()})
+            results.append(('/static/images/'+p.img_name,p.hash_tag,'/post/'+p.img_name.split('.')[0]))
+    return render(request,'NPFinal/index.html',{'srcs':results})
+
+def comment(reuqest):
+    c = request.POST.get('comment')
+    namelist = ['nigger','yellow monkey','big cock','9.2','red neck','white trash','douchebag','slutty cat','local mama']
+    name = random.choice(namelist)
+    #Comment.objects.create(
+            
+    #) 
+
+def mypage(request, id):
+    pass
+
 def base(request):
     return render(request, 'NPFinal/base.html', {})
 	

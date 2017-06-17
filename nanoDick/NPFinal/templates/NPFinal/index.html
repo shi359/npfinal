@@ -7,17 +7,17 @@
 		<i class="fa fa-search" onclick="search()" style="color:white;"></i>
 		</div>
 	</div>
-	{% for k,v in srcs %}
+	{% for i,h,l in srcs %}
 	{%if forloop.counter0|divisibleby:2 %}
 	<div class="row margin-b-30"> <!--- row 1 --> 
 	{% endif %}
 		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 			<div class="box london">
 				<div class="box-icon">
-					<img src={{ k }} alt="Image" class="img-responsive">
+					<a href={{ l }}><img src={{ i }} alt="Image" class="img-responsive"></a>
 				</div>
 				<div class="info float-container">
-					  <a class="hashtag" href="">{{ v }}</a>
+					  <a class="hashtag" href="">{{ h }}</a>
 					<!--   <a class="hashtag" href=""> #travel</a> -->
 					<div style="margin-bottom: 0px;">
 					</div>  

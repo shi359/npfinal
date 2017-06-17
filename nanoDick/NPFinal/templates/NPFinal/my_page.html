@@ -1,0 +1,110 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,400italic'>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css">    
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+<!--
+Accord Template
+http://www.templatemo.com/tm-478-accord
+-->   
+    <title>nanoDick</title>
+</head>
+
+{% block body %}<body class="contact-page">{% endblock %}
+    <div class="main-body">
+        <div class="container">
+            <div class="row">
+                <div class="main-page">
+
+                    <aside class="main-navigation">
+                        <div class="main-menu">
+
+                            <div class="menu-container">
+                                <div class="block-keep-ratio block-keep-ratio-2-1 block-width-full home">
+                                  <a href="index.html" class="main-menu-link about block-keep-ratio__content flexbox-center">
+                                          <h3> HOME </h3>                              
+                                    </a>
+                                </div>                                
+                            </div> 
+                            <div class="menu-container">                                
+                                <div class="block-keep-ratio  block-keep-ratio-1-1  block-width-half  pull-left  about-main">                                    
+                                    <a href="login.html" class="main-menu-link about block-keep-ratio__content flexbox-center">
+                                        <h3>Favourites</h3>
+                                    </a>                                    
+                                </div>
+                                 <div class="block-keep-ratio  block-keep-ratio-1-1  block-width-half  pull-right  contact-main" style="background-color:green">
+                                    <a href="register.html" class="main-menu-link contact block-keep-ratio__content flexbox-center">
+                                        <h3>Uploaded</h3>
+                                    </a>                                
+                                </div>    
+                            </div>  
+                             <div class="menu-container">
+                                 <div class="block-keep-ratio  block-keep-ratio-2-1  block-width-full  contact-main" style="background-color:#0059b3">
+                                    <input type="file" id="my_file" accept="image/*" style="display:none">
+                                    <label style="cursor:pointer;" href="" onclick="openModal()" class="main-menu-link contact block-keep-ratio__content flexbox-center">
+                                        <h3>Upload image</h3>
+                                    </label>
+                                    <input type="submit" value="Submit" style="display:none">
+                                    
+                                    <!-- The Modal -->
+                                    <div id="id01" class="modal">
+                                        
+                                        <!-- Modal Content -->
+                                        <div class="modal-content animate">
+                                            <div class="container">
+                                                <button type="button" onclick="document.getElementById('my_file').click()" class="cancelbtn">Upload</button>
+                                            </div>
+                                            <div class="imgcontainer">
+                                                <img src="" id="preview">
+                                            </div>
+
+                                            <div class="container2">
+                                                <label><b>tag</b></label>
+                                                <input type="text" id="my_hash"placeholder="Enter tags (start with #)">
+                                                <button type="submit" onclick="upload();closeModal();">submit</button>
+                                            </div>
+
+                                            <div class="container2" style="background-color:#f1f1f1">
+                                                <button type="button" onclick="closeModal()" class="cancelbtn">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- modal end -->
+                                </div>                                 
+                            </div>   
+                        </div> <!-- main-menu -->
+                    </aside> <!-- main-navigation -->  
+                    {% block content %}{% endblock %}               
+                </div> <!-- .main-page -->
+                {% for src in srcs%}
+                 <div style="margin-left: 30%;">
+                     <div class="box about_box_line card">
+                        <div class="box-icon">
+                            <img src={{src}} alt="Image" class="img-responsive">
+                        </div>
+                    </div> 
+                 </div>   
+                {% endfor %} 
+            </div> <!-- .row -->
+
+            <footer class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 footer">
+                    <p class="copyright">Copyright © 2016 Company Name</p>
+                </div>    
+            </footer>  <!-- .row -->   
+
+        </div> <!-- .container -->
+    </div> <!-- .main-body -->
+
+    <script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+   
+</body>
+</html>

@@ -18,6 +18,34 @@ function csrfSafeMethod(method) {
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
 
+function comment(){
+	var c = document.getElementById("comments").value;
+	formData = new FormData();
+	formData.append("comment",c);
+	$.ajaxSetup({
+		beforeSend: function(xhr, settings) {
+			if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+				xhr.setRequestHeader("X-CSRFToken", csrftoken);
+			}
+		}
+	});
+	$.ajax({
+		url: "/comment",
+		type: "POST",	
+		data: formData,
+		processData: false,
+		contentType: false,
+		success: function(data){
+			console.log(data['url'])
+			//window.location = data['url'];				
+		},
+		error: function(xhr, status, error) {
+			console.log("post error!!");
+		}
+	});	
+
+}
+
 function search(){
 	var search = document.getElementById("search_bar").value;
 	formData = new FormData();
