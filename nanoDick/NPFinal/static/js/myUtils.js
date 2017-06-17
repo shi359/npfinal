@@ -96,7 +96,7 @@ function upload(){
 		contentType: false,
 		success: function(data) {
 			console.log(data['url'])
-	//		window.location = data['url'];			
+			window.location = data['url'];			
 		},                
 		error: function(xhr, status, error) {
 			console.log("post error!!");
