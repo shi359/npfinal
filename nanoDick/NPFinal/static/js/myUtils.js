@@ -22,6 +22,8 @@ function comment(){
 	var c = document.getElementById("comments").value;
 	formData = new FormData();
 	formData.append("comment",c);
+	formData.append("hash", window.location)
+	var csrftoken = getCookie('csrftoken');
 	$.ajaxSetup({
 		beforeSend: function(xhr, settings) {
 			if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
