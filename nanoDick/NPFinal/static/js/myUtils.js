@@ -17,6 +17,34 @@ function csrfSafeMethod(method) {
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
+
+function search(){
+	var search = document.getElementById("search_bar").value;
+	formData = new FormData();
+	formData.append("keyword", search);
+	var csrftoken = getCookie('csrftoken');
+	$.ajaxSetup({
+		beforeSend: function(xhr, settings) {
+			if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+				xhr.setRequestHeader("X-CSRFToken", csrftoken);
+			}
+		}
+	});
+	$.ajax({
+		url: "/search",
+		type: "POST",	
+		data: formData,
+		processData: false,
+		contentType: false,
+		success: function(data){
+			console.log(data['url'])
+			window.location = data['url'];				
+		},
+		error: function(xhr, status, error) {
+			console.log("post error!!");
+		}
+	});	
+}
 function upload(){
 	var input = document.getElementById("my_file");
 	var hash = document.getElementById("my_hash");
@@ -40,7 +68,7 @@ function upload(){
 		contentType: false,
 		success: function(data) {
 			console.log(data['url'])
-			window.location = data['url'];			
+	//		window.location = data['url'];			
 		},                
 		error: function(xhr, status, error) {
 			console.log("post error!!");

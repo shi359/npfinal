@@ -2,20 +2,23 @@
 {% block content %}
 <div class="content-main">
 	<div style="margin-bottom: 25px;">
-		<input class="search" type="text" placeholder="Search.."> 
+		<div>			
+		<input class="search" type="text" id="search_bar" placeholder="Search..">
+		<i class="fa fa-search" onclick="search()" style="color:white;"></i>
+		</div>
 	</div>
-	{% for src in srcs %}
+	{% for k,v in srcs %}
 	{%if forloop.counter0|divisibleby:2 %}
 	<div class="row margin-b-30"> <!--- row 1 --> 
 	{% endif %}
 		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 			<div class="box london">
 				<div class="box-icon">
-					<img src={{ src }} alt="Image" class="img-responsive">
+					<img src={{ k }} alt="Image" class="img-responsive">
 				</div>
 				<div class="info float-container">
-					  <a class="hashtag" href=""> #london</a>
-					  <a class="hashtag" href=""> #travel</a>
+					  <a class="hashtag" href="">{{ v }}</a>
+					<!--   <a class="hashtag" href=""> #travel</a> -->
 					<div style="margin-bottom: 0px;">
 					</div>  
 					<div class="col-sm-12 location-main"> 

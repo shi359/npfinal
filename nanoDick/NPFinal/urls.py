@@ -10,6 +10,8 @@ urlpatterns = [
     url(r'^register.html[#]?$', views.register, name='register'),
     url(r'^upload$', views.upload, name='upload'),
     url(r'^post/(?P<hash_name>[a-zA-Z0-9_]+)$', views.post, name='post'),
+    url(r'^result/(?P<hash_name>^#\w+)/$', views.result, name='result'),
+    url(r'^search$', views.search, name='search'),
     url(r'^base.html$', views.base, name='base'),
 	url(r'^login_redirect$', views.login_redirect, name='login_redirect'),
 ]

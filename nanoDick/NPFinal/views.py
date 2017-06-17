@@ -11,9 +11,9 @@ import string
 
 # Create your views here.
 def post_list(request):
-    srcs = ['/static/images/home-img-2.jpg', '/static/images/home-img-3.jpg', '/static/images/home-img-2.jpg', '/static/images/home-img-3.jpg']
+    srcs = {'/static/images/home-img-2.jpg':'#london', '/static/images/home-img-3.jpg':'#london#autumn','/static/images/road.jpg':'#road','/static/images/city.jpg':'#city'}
     # posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    return render(request, 'NPFinal/index.html', {'srcs':srcs})
+    return render(request, 'NPFinal/index.html', {'srcs':srcs.items()})
 
 # return login html
 def login(request):
@@ -70,7 +70,6 @@ def upload(request):
             hash_tag = request.POST.get('hash')
         )
         #handle_uploaded_file(request.FILES['file'])
-        # src = '/static/images/'+imgname
         # return post with its hash
         return HttpResponse(json.dumps({'url':'/post/'+imgname.split('.')[0]}), content_type = "application/json")
 def post(request, hash_name):
@@ -78,8 +77,21 @@ def post(request, hash_name):
     for p in posts:
         if p.img_name.split('.')[0] == hash_name:
             print('/static/images/'+p.img_name)
-            return render(request, 'NPFinal/demo.html', {'src': '/static/images/'+p.img_name})
+            return render(request, 'NPFinal/demo.html', {'src': '/static/images/'+p.img_name, 'tag': p.hash_tag})
 
+def search(request):
+    keyword = request.POST.get('keyword')
+    return HttpResponse(json.dumps({'url':'/result/'+keyword}), content_type="application/json")
+
+def result(request, hash_name):
+    post = Post.objects.all()
+    results = {}
+    for p in post:
+        if hash_name in p.hash_tag:
+            results['/static/images/'+p.img_name] = p.hash_tag
+    for k,v in results.items():
+        print(k + ':' + v)
+    return render(request,'NPFinal/index.html',{'src':results.items()})
 def base(request):
     return render(request, 'NPFinal/base.html', {})
 	

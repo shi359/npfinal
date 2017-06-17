@@ -115,7 +115,7 @@ body {
 
 /* When the input field gets focus, change its width to 100% */
 .search[type=text]:focus {
-    width: 100%;
+    width: 80%;
 }
 /* http://stackoverflow.com/questions/12121090/responsively-change-div-size-keeping-aspect-ratio */
 
