@@ -91,6 +91,7 @@ def upload(request):
             destination_path.write(chunk)
         destination_path.close()
         Post.objects.create(
+            author = request.user.username,
             img_name = imgname,
             hash_tag = request.POST.get('hash')
         )
@@ -144,9 +145,19 @@ def favor(request):
             like = i
         )
     return render(request,'NPFinal/index.html',{})   
-def mypage(request, id):
+def mypage(request):
     return render(reuqest,'NPFinal/mypage.html',{})
 
+def uploaded(request):
+    post = Post.objects.all()
+    results = []
+    root = '/static/images/'
+    for p in post:
+        if p.author == request.user.username:
+            results.append(('/static/images/'+p.img_name,p.hash_tag,'/post/'+p.hash_tag))
+    if results is None:
+        return render(request,'NPFinal/mypage.html',{})
+    return render(request,'NPFinal/uploaded.html',{'srcs':results})
 def base(request):
     return render(request, 'NPFinal/base.html', {})
 	

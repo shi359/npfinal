@@ -16,5 +16,6 @@ urlpatterns = [
     url(r'^favor$', views.favor, name='favor'),
     url(r'^base.html$', views.base, name='base'),
     url(r'^mypage.html$', views.mypage, name='mypage'),
+    url(r'^uploaded.html$', views.uploaded, name='uploaded'),
 	url(r'^login_redirect$', views.login_redirect, name='login_redirect'),
 ]

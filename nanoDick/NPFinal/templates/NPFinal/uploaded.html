@@ -1,0 +1,41 @@
+{% extends 'NPFinal/mypage.html' %}
+{% block content %}
+<div class="content-main">
+	<div style="margin-bottom: 25px;">
+		<div>			
+		<input class="search" type="text" id="search_bar" placeholder="Search..">
+		<i class="fa fa-search" onclick="search()" style="color:white;"></i>
+		</div>
+	</div>
+	{% for i,h,l in srcs %}
+	{%if forloop.counter0|divisibleby:2 %}
+	<div class="row margin-b-30"> <!--- row 1 --> 
+	{% endif %}
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+			<div class="box london">
+				<div class="box-icon">
+					<a href={{ l }}><img src={{ i }} id="{{forloop.counter0}}" alt="Image" class="img-responsive"></a>
+				</div>
+				<div class="info float-container">
+					  <a class="hashtag" href="">{{ h }}</a>
+					<!--   <a class="hashtag" href=""> #travel</a> -->
+					<div style="margin-bottom: 0px;">
+					</div>  
+					<div class="col-sm-12 location-main"> 
+						<div class="pull-right user-icons">
+							<a href="#"><i class="fa fa-star fa-2x" onclick="style.color='#FF69B4';favor({{forloop.counter0}});"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	{%if forloop.counter0|add:"1"|divisibleby:2 %}
+	</div>
+	{% endif %}
+	
+	{% endfor %}
+
+</div> <!-- .content-main -->
+{% endblock %}
+
