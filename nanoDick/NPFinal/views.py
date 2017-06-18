@@ -15,8 +15,6 @@ from django.contrib import auth
 # Create your views here.
 def post_list(request):
 
-    if request.user != 'AnonymousUser':
-        return render(request,'NPFinal/mypage.html')
     srcs = []
     srcs.append(('/static/images/Vtq8Qp.jpg','#london','/post/Vtq8Qp'))
     srcs.append(('/static/images/DMyHTg.jpg','#autumn','/post/DMyHTg'))
@@ -37,7 +35,7 @@ def login(request):
         if user and user.is_active:
             auth.login(request, user)
             #request.user = user
-            return render(request, 'NPFinal/login_redirect.html', {'msg':'login successfully'})
+            return render(request, 'NPFinal/mypage.html',{})
         elif not user:
             return render(request, 'NPFinal/login_redirect.html', {'msg':'user not exist'})
         elif not user.password == p:
@@ -49,7 +47,7 @@ def login(request):
         print(request.user)
         print(request.user.is_authenticated())
         if request.user.is_authenticated():
-            return render(request, 'NPFinal/login_redirect.html', {'msg':'login successfully'})
+            return render(request, 'NPFinal/mypage.html',{})
         form = LoginForm()           
     return render(request, 'NPFinal/login.html', {'form': form})
 
