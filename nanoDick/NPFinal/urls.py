@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^search$', views.search, name='search'),
     url(r'^comment$', views.comment, name='comment'),
     url(r'^favor$', views.favor, name='favor'),
+    url(r'^favorate.html$', views.favorate, name='favorate'),
     url(r'^base.html$', views.base, name='base'),
     url(r'^mypage.html$', views.mypage, name='mypage'),
     url(r'^uploaded.html$', views.uploaded, name='uploaded'),

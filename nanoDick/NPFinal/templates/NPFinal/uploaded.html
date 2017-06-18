@@ -7,7 +7,7 @@
 		<i class="fa fa-search" onclick="search()" style="color:white;"></i>
 		</div>
 	</div>
-	{% for i,h,l in srcs %}
+	{% for i,h,l,like in srcs %}
 	{%if forloop.counter0|divisibleby:2 %}
 	<div class="row margin-b-30"> <!--- row 1 --> 
 	{% endif %}
@@ -23,7 +23,11 @@
 					</div>  
 					<div class="col-sm-12 location-main"> 
 						<div class="pull-right user-icons">
-							<a href="#"><i class="fa fa-star fa-2x" onclick="style.color='#FF69B4';favor({{forloop.counter0}});"></i></a>
+							{%if like %}
+							<a href="#"><i class="fa fa-heart fa-2x" style="color:#FF69B4"></i></a>
+							{% else %}
+							<a href="#"><i class="fa fa-heart fa-2x" onclick="style.color='#FF69B4';favor({{forloop.counter0}});"></i></a>
+							{% endif %}
 						</div>
 					</div>
 				</div>

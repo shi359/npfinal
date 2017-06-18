@@ -81,9 +81,7 @@ function favor(id){
 	var image = res.pop();
 	console.log(image);
 
-	var user = "aa" ;
 	formData = new FormData();
-	formData.append("user", user);
 	formData.append("image", image);
 	var csrftoken = getCookie('csrftoken');
 	$.ajaxSetup({

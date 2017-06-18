@@ -1,4 +1,4 @@
-{% extends 'NPFinal/base.html' %}
+{% extends 'NPFinal/mypage.html' %}
 {% block content %}
 <div class="content-main">
 	<div style="margin-bottom: 25px;">
@@ -7,14 +7,14 @@
 		<i class="fa fa-search" onclick="search()" style="color:white;"></i>
 		</div>
 	</div>
-	{% for i,h,l,like in srcs %}
+	{% for i,h,l in srcs %}
 	{%if forloop.counter0|divisibleby:2 %}
 	<div class="row margin-b-30"> <!--- row 1 --> 
 	{% endif %}
 		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 			<div class="box london">
 				<div class="box-icon">
-					<a href={{ l }}><img src={{ i }} id="{{forloop.counter0}}" alt="Image" class="img-responsive"></a>
+					<a href={{ l }}><img src={{ i }} alt="Image" class="img-responsive"></a>
 				</div>
 				<div class="info float-container">
 					  <a class="hashtag" href="">{{ h }}</a>
@@ -23,11 +23,7 @@
 					</div>  
 					<div class="col-sm-12 location-main"> 
 						<div class="pull-right user-icons">
-							{%if like %}
 							<a href="#"><i class="fa fa-heart fa-2x" style="color:#FF69B4"></i></a>
-							{% else %}
-							<a href="#"><i class="fa fa-heart fa-2x" onclick="style.color='#FF69B4';favor({{forloop.counter0}});"></i></a>
-							{% endif %}
 						</div>
 					</div>
 				</div>

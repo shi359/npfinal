@@ -16,10 +16,17 @@ from django.contrib import auth
 def post_list(request):
 
     srcs = []
-    srcs.append(('/static/images/Vtq8Qp.jpg','#london','/post/Vtq8Qp'))
-    srcs.append(('/static/images/DMyHTg.jpg','#autumn','/post/DMyHTg'))
-    srcs.append(('/static/images/P5hhR3.jpg','#road','/post/P5hhR3'))
-    srcs.append(('/static/images/taCU4B.jpg','#city','/post/taCU4B'))
+    choose = []
+    like = []
+    post = Post.objects.all()
+    for i in range(0,4):
+        cc = random.choice(post)
+        while cc in choose:
+            cc = random.choice(post)
+        choose.append(cc)
+    for c in choose:
+        likes = Favor.objects.filter(name=request.user.username, like=c.img_name).exists()
+        srcs.append(('/static/images/'+c.img_name, c.hash_tag,'post/'+c.img_name.split('.')[0],likes))    
     # posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     return render(request, 'NPFinal/index.html', {'srcs':srcs})
 
@@ -106,10 +113,12 @@ def post(request, hash_name):
     for p in posts:
         if p.img_name.split('.')[0] == hash_name:
             print('/static/images/'+p.img_name)
+            break
     for c in com:
         if c.hash_tag == hash_name:
             comments[c.author] = c.comment
-    return render(request, 'NPFinal/demo.html', {'src': '/static/images/'+p.img_name,'tag': p.hash_tag, 'comments':comments.items()})
+    like = Favor.objects.filter(name=request.user.username,like=p.img_name).exists()    
+    return render(request, 'NPFinal/demo.html', {'src': '/static/images/'+p.img_name,'tag': p.hash_tag, 'comments':comments.items(),'like':like})
 
 def search(request):
     keyword = request.POST.get('keyword')
@@ -120,7 +129,7 @@ def result(request, hash_name):
     results = []
     for p in post:
         if hash_name in p.hash_tag:
-            results.append(('/static/images/'+p.img_name,p.hash_tag,'/post/'+p.img_name.split('.')[0]))
+            results.append(('/static/images/'+p.img_name,p.hash_tag,'/post/'+p.img_name.split('.')[0],Favor.objects.filter(name=request.user.username,like=p.img_name).exists()))
     return render(request,'NPFinal/index.html',{'srcs':results})
 
 def comment(request):
@@ -137,7 +146,7 @@ def comment(request):
     return HttpResponse(json.dumps({'url':'/post/'+hashtag}),content_type = "application/json")
 
 def favor(request):
-    n = request.POST.get('user')
+    n = request.user.username
     i = request.POST.get('image')
     if not Favor.objects.all().filter(name=n,like=i).exists():
         Favor.objects.create(
@@ -154,7 +163,8 @@ def uploaded(request):
     root = '/static/images/'
     for p in post:
         if p.author == request.user.username:
-            results.append(('/static/images/'+p.img_name,p.hash_tag,'/post/'+p.hash_tag))
+            results.append(('/static/images/'+p.img_name,p.hash_tag,'/post/'+p.img_name.split('.')[0],Favor.objects.filter(name=p.author,like=p.img_name).exists()))
+
     if results is None:
         return render(request,'NPFinal/mypage.html',{})
     return render(request,'NPFinal/uploaded.html',{'srcs':results})
@@ -165,7 +175,16 @@ def login_redirect(request):
     return render(request, 'NPFinal/login_redirect.html',{})
 
 
-
-
-
-
+def favorate(request):
+    n = request.user.username
+    print(n)
+    results = []
+    favors = Favor.objects.all().filter(name=n);
+    root = '/static/images/';
+    for f in favors:
+        print(f.like)
+        posts = Post.objects.filter(img_name=f.like);
+        for p in posts:
+            print('p:'+p.img_name);
+            results.append(('/static/images/'+f.like,p.hash_tag,'/post/'+f.like.split('.')[0]))
+    return render(request,'NPFinal/favorate.html',{'srcs':results})
