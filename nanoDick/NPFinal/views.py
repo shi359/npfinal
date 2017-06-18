@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from django.conf import settings
 from django.http import *
 from django.template import loader
@@ -8,9 +8,15 @@ from django.contrib import messages
 import json
 import random
 import string
+from django.contrib.auth import authenticate
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import auth
 
 # Create your views here.
 def post_list(request):
+
+    if request.user != 'AnonymousUser':
+        return render(request,'NPFinal/mypage.html')
     srcs = []
     srcs.append(('/static/images/Vtq8Qp.jpg','#london','/post/Vtq8Qp'))
     srcs.append(('/static/images/DMyHTg.jpg','#autumn','/post/DMyHTg'))
@@ -21,38 +27,55 @@ def post_list(request):
 
 # return login html
 def login(request):
-    # srcs = ['/static/images/home-img-2.jpg', '/static/images/home-img-3.jpg', '/static/images/home-img-2.jpg', '/static/images/home-img-3.jpg']
-    # posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     if request.method == 'POST':
+        
         form = LoginForm(request.POST)
         m = form['account'].value()
         p = form['password'].value()
-        user = Reg.objects.filter(mail=m)[0]
-        if not user:
-            return render(request, 'NPFinal/login_redirect.html', {'msg':'user not exist'})
-        if not user.password == p:
-            return render(request, 'NPFinal/login_redirect.html', {'msg':'oops, wrong password'})
-        if form.is_valid():
+        user = auth.authenticate(username=m, password=p)
+
+        if user and user.is_active:
+            auth.login(request, user)
+            #request.user = user
             return render(request, 'NPFinal/login_redirect.html', {'msg':'login successfully'})
+        elif not user:
+            return render(request, 'NPFinal/login_redirect.html', {'msg':'user not exist'})
+        elif not user.password == p:
+            return render(request, 'NPFinal/login_redirect.html', {'msg':'oops, wrong password'})
+        #if form.is_valid():
+        #    request.user = user
+        #    return render(request, 'NPFinal/login_redirect.html', {'msg':'login successfully'})
     else:
+        print(request.user)
+        print(request.user.is_authenticated())
+        if request.user.is_authenticated():
+            return render(request, 'NPFinal/login_redirect.html', {'msg':'login successfully'})
         form = LoginForm()           
     return render(request, 'NPFinal/login.html', {'form': form})
 
 # return register html
 def register(request):
-    srcs = ['/static/images/home-img-2.jpg', '/static/images/home-img-3.jpg', '/static/images/home-img-2.jpg', '/static/images/home-img-3.jpg']
-    # posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     if request.method == 'POST':
-        form = RegForm(request.POST)
+        form = UserCreationForm(request.POST)
+        #print(form)
+        #print(form.cleaned_data.get('username'))
+        #print(form.cleaned_data.get('password1'))
+        #print(form.is_bound)
+        print(form._errors)
         if form.is_valid():
             form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
             return render(request, 'NPFinal/register_redirect.html', {'msg':'register successfully'})
-
         else:
-            return render(request, 'NPFinal/register_redirect.html', {'msg':'register fail'})
+            return render(request, 'NPFinal/register_redirect.html', {'msg':form._errors})
     else:
-        form = RegForm()        
-    return render(request, 'NPFinal/register.html', {'form': form})
+        if request.user.is_authenticated():
+            return render(request, 'NPFinal/register_redirect.html', {'msg':'login successfully'})
+        form = UserCreationForm()
+    return render(request, 'NPFinal/register.html', {'form':form})
+    #return render_to_response(request, 'register.html',locals())
 
 def upload(request):
     if request.method == 'POST':
@@ -84,10 +107,10 @@ def post(request, hash_name):
     for p in posts:
         if p.img_name.split('.')[0] == hash_name:
             print('/static/images/'+p.img_name)
-    #for c in com:
-     #   if com.hash_tag == hash_name:
-      #      comments[com.author] = com.comment
-            return render(request, 'NPFinal/demo.html', {'src': '/static/images/'+p.img_name, 'tag': p.hash_tag})
+    for c in com:
+        if c.hash_tag == hash_name:
+            comments[c.author] = c.comment
+    return render(request, 'NPFinal/demo.html', {'src': '/static/images/'+p.img_name,'tag': p.hash_tag, 'comments':comments.items()})
 
 def search(request):
     keyword = request.POST.get('keyword')
@@ -112,9 +135,19 @@ def comment(request):
       author = name,
       comment = c
     ) 
-    return HttpResponse('/thanks')
+    return HttpResponse(json.dumps({'url':'/post/'+hashtag}),content_type = "application/json")
+
+def favor(request):
+    n = request.POST.get('user')
+    i = request.POST.get('image')
+    if not Favor.objects.all().filter(name=n,like=i).exists():
+        Favor.objects.create(
+            name = n,
+            like = i
+        )
+    return render(request,'NPFinal/index.html',{})   
 def mypage(request, id):
-    pass
+    return render(reuqest,'NPFinal/mypage.html',{})
 
 def base(request):
     return render(request, 'NPFinal/base.html', {})

@@ -120,4 +120,5 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 IMAGES_ROOT = os.path.join(BASE_DIR,'NPFinal','static','images')+os.path.sep
+AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
 

@@ -14,7 +14,7 @@
 		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 			<div class="box london">
 				<div class="box-icon">
-					<a href={{ l }}><img src={{ i }} alt="Image" class="img-responsive"></a>
+					<a href={{ l }}><img src={{ i }} id="{{forloop.counter0}}" alt="Image" class="img-responsive"></a>
 				</div>
 				<div class="info float-container">
 					  <a class="hashtag" href="">{{ h }}</a>
@@ -23,7 +23,7 @@
 					</div>  
 					<div class="col-sm-12 location-main"> 
 						<div class="pull-right user-icons">
-							<a href="#"><i class="fa fa-star fa-2x" onclick="style.color='#FF69B4';"></i></a>
+							<a href="#"><i class="fa fa-star fa-2x" onclick="style.color='#FF69B4';favor({{forloop.counter0}});"></i></a>
 						</div>
 					</div>
 				</div>

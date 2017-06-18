@@ -14,9 +14,9 @@
 
 		<div class="row">  
 			<div class="col-sm-12 col-md-6 contact_left">        
-				<form class="form-horizontal" method="post">
+				<form class="form-horizontal" method="post" action="">
 				  {% csrf_token %}
-				  {{ form }}
+				  {{ form.as_p }}
 						 <!--  <input type="submit" value="Submit"/>
 							<div class="form-group">    
 								<label for="reg_name">Enter your name: </label>                                 
@@ -35,7 +35,7 @@
 							<div class="form-group">
 								<input id="submit" name="submit" type="submit" value="Send" class="btn view_more btn-register">
 							</div>            --> 
-					<input id="submit" name="submit" type="submit" value="Send" class="btn view_more btn-register">
+					<button id="submit" name="submit" type="submit" class="btn view_more btn-register">Send</button>
 				
 				</form>    
 			</div> <!-- .contact-left -->

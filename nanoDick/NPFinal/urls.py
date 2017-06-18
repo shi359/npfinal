@@ -13,7 +13,8 @@ urlpatterns = [
     url(r'^result/(?P<hash_name>[a-zA-Z0-9_]+)$', views.result, name='result'),
     url(r'^search$', views.search, name='search'),
     url(r'^comment$', views.comment, name='comment'),
+    url(r'^favor$', views.favor, name='favor'),
     url(r'^base.html$', views.base, name='base'),
-    url(r'^my_page.html$', views.mypage, name='mypage'),
+    url(r'^mypage.html$', views.mypage, name='mypage'),
 	url(r'^login_redirect$', views.login_redirect, name='login_redirect'),
 ]

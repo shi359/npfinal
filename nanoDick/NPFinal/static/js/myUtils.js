@@ -39,7 +39,7 @@ function comment(){
 		contentType: false,
 		success: function(data){
 			console.log(data['url'])
-			//window.location = data['url'];				
+			window.location = data['url'];				
 		},
 		error: function(xhr, status, error) {
 			console.log("post error!!");
@@ -72,6 +72,39 @@ function search(){
 		},
 		error: function(xhr, status, error) {
 			console.log("post error!!");
+		}
+	});	
+}
+function favor(id){
+	var src = document.getElementById(id).src;
+	var res = src.split("/");
+	var image = res.pop();
+	console.log(image);
+
+	var user = "aa" ;
+	formData = new FormData();
+	formData.append("user", user);
+	formData.append("image", image);
+	var csrftoken = getCookie('csrftoken');
+	$.ajaxSetup({
+		beforeSend: function(xhr, settings) {
+			if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+				xhr.setRequestHeader("X-CSRFToken", csrftoken);
+			}
+		}
+	});
+	$.ajax({
+		url: "/favor",
+		type: "POST",
+		data: formData,
+		processData: false,
+		contentType: false,
+		success: function(data){
+			console.log(data['url'])
+			//window.location = data['url'];
+		},
+		error: function(xhr, status, error) {
+			console.log("favor error!!");
 		}
 	});	
 }

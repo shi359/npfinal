@@ -10,12 +10,6 @@ class Comment(models.Model):
         author = models.CharField(max_length=100)
         comment = models.TextField()
 
-class Uploaded(models.Model):
-        mail = models.EmailField(max_length=100)
-        name = models.CharField(max_length=50)
-        upload = models.TextField()
-
-class Favorite(models.Model):
-        mail = models.EmailField(max_length=100)
+class Favor(models.Model):
         name = models.CharField(max_length=50)
         like = models.TextField()
