@@ -134,7 +134,7 @@ def result(request, hash_name):
 
 def comment(request):
     c = request.POST.get('comment')
-    namelist = ['nigger','yellow monkey','big cock','9.2','red neck','white trash','douchebag','slutty cat','local mama']
+    namelist = ['nigger','yellow monkey','big cock','9.2','red neck','white trash','douchebag','slutty cat','local mama','handsome boy','wanna sis','tiny dick','cripple','Dr.Zombie']
     name = random.choice(namelist)
     hashtag = request.POST.get('hash')
     hashtag = hashtag.split('post/')[1]
